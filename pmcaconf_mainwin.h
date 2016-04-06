@@ -46,7 +46,8 @@ public:
     QGridLayout *myLayout;
     QDialogButtonBox *partButs;
     QStringList *groupList;
-    QStringList *registeredParts;
+    QStringList *registeredParts_root;
+    QStringList *registeredParts_head;
     QStringListModel *groups;
     QStringListModel *partNames;
     QListView *groupSelect;
@@ -69,6 +70,7 @@ public slots:
     void buildGroupList();
     void populateLinkList();
     void changePartName(QModelIndex partAt);
+    void switchPartGroup();
 
 private:
     Ui::pmcaconf_mainwin *ui;

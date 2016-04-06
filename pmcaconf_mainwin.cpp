@@ -32,9 +32,10 @@ pmcaconf_mainwin::pmcaconf_mainwin(QWidget *parent) :
     //ui->centralWidget->setLayout(mainLayout);
     ui->listView = new QListView();
 
-    registeredParts = new QStringList();
+    registeredParts_root = new QStringList();
+    registeredParts_head = new QStringList();
     ui->listView_parts = new QListView();
-    partNames = new QStringListModel(*registeredParts,this);
+    partNames = new QStringListModel(*registeredParts_root,this);
 
     buildGroupList();
     ui->setupUi(this);
@@ -81,13 +82,14 @@ void pmcaconf_mainwin::populateLinkList()
     ui->listView_availableGroups->update();
 
     ui->listView_parts->setModel(partNames);
-    partNames->setStringList(*registeredParts);
+    partNames->setStringList(*registeredParts_root);
     ui->listView_parts->update();
 
     ui->listView->setModel(groups);
     ui->listView->update();
 
     connect(ui->listView_parts,SIGNAL(clicked(QModelIndex)),this,SLOT(changePartName(partAt)));
+    connect(ui->listView,SIGNAL(clicked(QModelIndex)),this,SLOT(switchPartGroup()));
 }
 void pmcaconf_mainwin::showAbout()
 {
@@ -240,11 +242,14 @@ void pmcaconf_mainwin::setLoadedPartName()
     partPath->update();
 }
 void pmcaconf_mainwin::partAccepted()
-{
+{   if (typeSelect->currentIndex()==2)
+    {registeredParts_head->insert(listIterator,partName->text());}
+    else
+    {registeredParts_root->insert(listIterator,partName->text());}
     addPart->close();
 
     partList->insert(listIterator,sizeof(partName),partName->text());
-    registeredParts->insert(listIterator,partName->text());
+
     populateLinkList();
     ui->lineEdit_Name->setText(partList->value(listIterator));
     ui->lineEdit_Name->update();
@@ -261,4 +266,14 @@ void pmcaconf_mainwin::partRejected()
 void pmcaconf_mainwin::changePartName(QModelIndex partAt)
 {
 
+}
+
+void pmcaconf_mainwin::switchPartGroup()
+{
+    if (ui->listView->currentIndex().row()==2)
+    {partNames->setStringList(*registeredParts_head);
+    ui->listView_parts->update();}
+    else
+    {partNames->setStringList(*registeredParts_root);
+    ui->listView_parts->update();}
 }
