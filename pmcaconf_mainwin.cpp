@@ -17,6 +17,7 @@ pmcaconf_mainwin::pmcaconf_mainwin(QWidget *parent) :
     ui->statusBar = new QStatusBar(this);
 
     ui->actionAbout =new QAction(this);
+    ui->actionAdd_group = new QAction(this);
     ui->actionAdd_part = new QAction(this);
 
     ui->lineEdit_Name = new QLineEdit();
@@ -27,15 +28,16 @@ pmcaconf_mainwin::pmcaconf_mainwin(QWidget *parent) :
     ui->actionOpen_configuration=new QAction(this);
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(showAbout()));
     connect(ui->actionOpen_configuration,SIGNAL(triggered()),this,SLOT(openConfig()));
+    connect(ui->actionAdd_group,SIGNAL(triggered()),this,SLOT(addNewGroup()));
     connect(ui->actionAdd_part,SIGNAL(triggered()),this,SLOT(addNewPart()));
     //mainLayout = new QGridLayout(this);
     //ui->centralWidget->setLayout(mainLayout);
     ui->listView = new QListView();
 
-    registeredParts_root = new QStringList();
-    registeredParts_head = new QStringList();
+    for(int c=0;c<=13;c++){
+    pmcaGroups.append(new QStringList);}
     ui->listView_parts = new QListView();
-    partNames = new QStringListModel(*registeredParts_root,this);
+    partNames = new QStringListModel(*pmcaGroups[0],this);
 
     buildGroupList();
     ui->setupUi(this);
@@ -82,7 +84,7 @@ void pmcaconf_mainwin::populateLinkList()
     ui->listView_availableGroups->update();
 
     ui->listView_parts->setModel(partNames);
-    partNames->setStringList(*registeredParts_root);
+    partNames->setStringList(*pmcaGroups[0]);
     ui->listView_parts->update();
 
     ui->listView->setModel(groups);
@@ -242,10 +244,7 @@ void pmcaconf_mainwin::setLoadedPartName()
     partPath->update();
 }
 void pmcaconf_mainwin::partAccepted()
-{   if (typeSelect->currentIndex()==2)
-    {registeredParts_head->insert(listIterator,partName->text());}
-    else
-    {registeredParts_root->insert(listIterator,partName->text());}
+{   pmcaGroups[typeSelect->currentIndex()]->insert(listIterator,partName->text());
     addPart->close();
 
     partList->insert(listIterator,sizeof(partName),partName->text());
@@ -261,6 +260,7 @@ void pmcaconf_mainwin::partRejected()
 {
 
     addPart->close();
+    addGroup->close();
 }
 
 void pmcaconf_mainwin::changePartName(QModelIndex partAt)
@@ -268,12 +268,48 @@ void pmcaconf_mainwin::changePartName(QModelIndex partAt)
 
 }
 
+void pmcaconf_mainwin::addNewGroup()
+{
+    addGroup = new QDialog(this);
+    addGroup->setWindowTitle("Add new part group");
+    addGroup->setGeometry(0,0,300,200);
+
+    QLabel *groupInf = new QLabel("Here you can add a new part group to your part list");
+
+    groupButs = new QDialogButtonBox(this);
+    groupButs->addButton("OK",QDialogButtonBox::AcceptRole);
+    groupButs->addButton("Cancel",QDialogButtonBox::RejectRole);
+
+    connect(groupButs,SIGNAL(accepted()),this,SLOT(createGroup()));
+    connect(groupButs,SIGNAL(rejected()),this,SLOT(partRejected()));
+
+    groupArea = new QLineEdit(this);
+    groupArea->setGeometry(0,0,100,20);
+
+    grLayout = new QFormLayout(this);
+    grLayout->setSpacing(0);
+
+    grLayout->addRow(groupInf);
+    grLayout->addRow(tr("Name:"), groupArea);
+    grLayout->addRow(groupButs);
+    grLayout->setSpacing(10);
+    addGroup->setLayout(grLayout);
+
+    addGroup->show();
+}
+
 void pmcaconf_mainwin::switchPartGroup()
 {
-    if (ui->listView->currentIndex().row()==2)
-    {partNames->setStringList(*registeredParts_head);
-    ui->listView_parts->update();}
-    else
-    {partNames->setStringList(*registeredParts_root);
-    ui->listView_parts->update();}
+
+    partNames->setStringList(*pmcaGroups[ui->listView->currentIndex().row()]);
+    ui->listView_parts->update();
+}
+
+void pmcaconf_mainwin::createGroup()
+{
+    pmcaGroups.append(new QStringList);
+    groupList->append(groupArea->text());
+    groups->setStringList(*groupList);
+    addGroup->close();
+    ui->listView->update();
 }

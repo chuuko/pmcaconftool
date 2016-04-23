@@ -17,37 +17,43 @@
 namespace Ui {
 class pmcaconf_mainwin;
 }
-
+QT_BEGIN_NAMESPACE
+class QVector<QStringList>;
+class QStringList;
+QT_END_NAMESPACE
 class pmcaconf_mainwin : public QMainWindow
 {
     Q_OBJECT
     QFileDialog *selDir;
     QDialog *chooseID;
     QFileDialog *selPart;
-
+    QVector<QStringList*> pmcaGroups;
 
 public:
     explicit pmcaconf_mainwin(QWidget *parent = 0);
+
     QDialog *pmcaAbout;
     QString prefix;
     QLabel *prefixLabel;
     QLineEdit *prefixBox;
+    QLineEdit *groupArea;
     QPushButton *prefixOk;
     QGridLayout *idLayout;
+    QFormLayout *grLayout;
     QFormLayout *partLayout;
     QLabel *addPartLabel;
     QLineEdit *partName;
     QLineEdit *partPath;
     QDialog *addPart;
+    QDialog *addGroup;
     QPushButton *openPart;
     QStatusBar *b;
     QWidget *fileArea;
     QComboBox *typeSelect;
     QGridLayout *myLayout;
     QDialogButtonBox *partButs;
+    QDialogButtonBox *groupButs;
     QStringList *groupList;
-    QStringList *registeredParts_root;
-    QStringList *registeredParts_head;
     QStringListModel *groups;
     QStringListModel *partNames;
     QListView *groupSelect;
@@ -65,6 +71,8 @@ public slots:
     void setLoadedPartName();
     void selectPart();
     void addNewPart();
+    void addNewGroup();
+    void createGroup();
     void partRejected();
     void partAccepted();
     void buildGroupList();
