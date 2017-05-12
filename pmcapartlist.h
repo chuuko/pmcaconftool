@@ -1,21 +1,41 @@
 #ifndef PMCAPARTLIST_H
 #define PMCAPARTLIST_H
 
+#include <stdio.h>
+#include <iostream>
 #include <QObject>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QIODevice>
+
 #include "pmcaconf_mainwin.h"
 
 class pmcaPartList: public QObject
 {
     Q_OBJECT
     int nums[10000];
-    QVector<QString> names;
+    QFile *pmcaList;
+    QByteArray bt;
+    QTextStream* pmcaStream;
 public:
-    explicit pmcaPartList(int num, int gr, QString &pmcaPartName, QString &pmcaComment, QString &pmcaFileName, QStringList &pmcaLinkGroups);
+    explicit pmcaPartList();
     ~pmcaPartList();
-    void setPartName(int num, QString &pmcaPartName);
-    void setComment(int num, QString &pmcaComment);
-    void setGroup(int num, int gr);
-    QString getPartName(int num);
+    int mainGroup[10000];
+    QStringList names;
+    QStringList com;
+    QStringList files;
+    QVector<QString> textFile;
+    int status;
+    int num;
+    QString partsRoot;
+    QVector<QStringList> linkGroups;
+    void pmcaRead(QString path);
+    void pmcaWrite();
+    void setPartName(int n, QString &pmcaPartName);
+    void setComment(int n, QString &pmcaComment);
+    void setFileName(int n, QString &pmcaFileName);
+    void setGroup(int n, int gr);
+    void fillLink(int n, QString l);
 
 };
 #endif // PMCAPARTLIST_H

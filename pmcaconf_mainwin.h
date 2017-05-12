@@ -14,53 +14,61 @@
 #include <QStringListModel>
 #include <QVector>
 
+#include <pmcapartlist.h>
+
 namespace Ui {
 class pmcaconf_mainwin;
 }
-QT_BEGIN_NAMESPACE
-class QVector<QStringList>;
-class QStringList;
-QT_END_NAMESPACE
+
 class pmcaconf_mainwin : public QMainWindow
 {
     Q_OBJECT
     QFileDialog *selDir;
     QDialog *chooseID;
     QFileDialog *selPart;
-    QVector<QStringList*> pmcaGroups;
+
 
 public:
     explicit pmcaconf_mainwin(QWidget *parent = 0);
-
     QDialog *pmcaAbout;
     QString prefix;
     QLabel *prefixLabel;
     QLineEdit *prefixBox;
-    QLineEdit *groupArea;
     QPushButton *prefixOk;
     QGridLayout *idLayout;
-    QFormLayout *grLayout;
     QFormLayout *partLayout;
     QLabel *addPartLabel;
     QLineEdit *partName;
     QLineEdit *partPath;
+    QLineEdit *partCom;
     QDialog *addPart;
-    QDialog *addGroup;
     QPushButton *openPart;
     QStatusBar *b;
     QWidget *fileArea;
     QComboBox *typeSelect;
     QGridLayout *myLayout;
     QDialogButtonBox *partButs;
-    QDialogButtonBox *groupButs;
     QStringList *groupList;
     QStringListModel *groups;
-    QStringListModel *partNames;
+    QStringListModel *ll;
+    QStringListModel *ll2;
     QListView *groupSelect;
     QVector<QString> *partList;
-    QString partFileName;
-    QModelIndex partAt2;
+    QVector<QString> *partBox;
+    QVector<int> *partRef;
+    QVector<QString> *commList;
+    QVector<QString> *fileList;
+    QVector<QStringList> *links;
+    QStringListModel *pt;
+    QStringList *pts;
+    QVector<int> *group;
+    QStringList aGroups;
     int listIterator;
+    int i;
+    int aGr;
+    int listI;
+    int pos;
+    int pos2;
     ~pmcaconf_mainwin();
 
 public slots:
@@ -68,17 +76,16 @@ public slots:
     void showAbout();
     void openConfig();
     void loadConf();
-    void setLoadedPartName();
-    void selectPart();
     void addNewPart();
-    void addNewGroup();
-    void createGroup();
+    void populatePartList();
     void partRejected();
     void partAccepted();
     void buildGroupList();
     void populateLinkList();
-    void changePartName(QModelIndex partAt);
-    void switchPartGroup();
+    void groupChanged(QModelIndex m);
+    void updateDetails(QModelIndex m);
+    void addLink(QModelIndex m);
+    void deletePart();
 
 private:
     Ui::pmcaconf_mainwin *ui;
