@@ -1,6 +1,12 @@
 # pmcaconftool
 A configuration tool for PMCA part sets.
 # What is this?
-This is a configuration tool for part sets for PMCA, a free software tool for the creation of MikuMikuDance (MMD) models. This tool is strongly WIP, so any changes/commits are welcome.
+This is a configuration tool for part sets for PMCA, a free software tool for the creation of MikuMikuDance (MMD) models. This tool is now almost fully functional.
 # Requirements
 Qt4 at least
+# What can it do?
+Creation of material, texture and part lists for latest PMCA and PMCA-leap
+# What it can't do yet?
+Delete materials and textures from lists
+Preview images
+Support for legacy PMCA
