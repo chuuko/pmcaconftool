@@ -7,6 +7,7 @@ Qt4 at least
 # What can it do?
 Creation of material, texture and part lists for latest PMCA and PMCA-leap
 # What it can't do yet?
+Japanese mode<br>
 Delete materials and textures from lists<br>
 Add thumbnails<br>
 Support for legacy PMCA
