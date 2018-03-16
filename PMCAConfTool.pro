@@ -9,17 +9,23 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PMCAConfTool
-TEMPLATE = app
+TEMPLATE = app dialog
 
+CONFIG += c++11
 
-SOURCES += main.cpp\
-        pmcaconf_mainwin.cpp \
-    pmcapartlist.cpp
+QMAKE_CXXFLAGS += -fpermissive
 
-HEADERS  += pmcaconf_mainwin.h \
-    pmcapartlist.h
+SOURCES += sources/main.cpp \
+    sources/matedit.cpp \
+    sources/pmcaconf_mainwin.cpp \
+    sources/pmcapartlist.cpp
 
-FORMS    += pmcaconf_mainwin.ui
+HEADERS  += sources/matedit.h \
+    sources/pmcaconf_mainwin.h \
+    sources/pmcapartlist.h
+
+FORMS    += sources/pmcaconf_mainwin.ui \
+    sources/matedit.ui
 
 RESOURCES += \
     images.qrc
