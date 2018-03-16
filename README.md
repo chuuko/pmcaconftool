@@ -8,5 +8,5 @@ Qt4 at least
 Creation of material, texture and part lists for latest PMCA and PMCA-leap
 # What it can't do yet?
 Delete materials and textures from lists<br>
-Preview images<br>
+Add thumbnails<br>
 Support for legacy PMCA
