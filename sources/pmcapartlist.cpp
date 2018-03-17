@@ -619,7 +619,14 @@ void pmcaPartList::pmcaWrite(QString path, QVector<QString> *nm, QVector<QString
                         {
                             jt = "body_acce";
                         }
-                        writeList << jt << " ";
+                        if(jn<lk->value(pw).length()-1)
+			{
+			  writeList << jt << ",";
+			}
+			else
+			{
+			  writeList << jt;
+			}
                     }
                     writeList << endl;
 
