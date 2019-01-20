@@ -14,10 +14,7 @@ TEMPLATE = app dialog
 CONFIG += c++11
 
 QMAKE_CXXFLAGS += -fpermissive
-windows:DEPENDPATH += . ../
-windows:INCLUDEPATH += ../
 
-windows:LIBS += -L../debug -lQt5Core -L../debug -lQt5Gui -L../debug -lQt5Widgets -L../debug -lQt5Widgetsd -L../debug -lQt5Cored -L../debug -lQt5Guid -L../debug -lQt5Windowsd
 SOURCES += sources/main.cpp \
     sources/matedit.cpp \
     sources/pmcaconf_mainwin.cpp \
